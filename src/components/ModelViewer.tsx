@@ -1,7 +1,7 @@
 
 import React, { useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, useGLTF } from '@react-three/drei';
+import { OrbitControls } from '@react-three/drei';
 import { Mesh } from 'three';
 
 // Simple 3D model component
@@ -21,19 +21,19 @@ const SteelFrameModel = () => {
       {/* Steel beam vertical */}
       <mesh ref={meshRef} position={[0, 0, 0]}>
         <boxGeometry args={[0.5, 4, 0.5]} />
-        <meshStandardMaterial color="#888888" metalness={0.8} roughness={0.2} />
+        <meshStandardMaterial attach="material" color="#888888" metalness={0.8} roughness={0.2} />
       </mesh>
       
       {/* Steel beam horizontal */}
       <mesh position={[0, 1.5, 0]}>
         <boxGeometry args={[4, 0.5, 0.5]} />
-        <meshStandardMaterial color="#888888" metalness={0.8} roughness={0.2} />
+        <meshStandardMaterial attach="material" color="#888888" metalness={0.8} roughness={0.2} />
       </mesh>
       
       {/* Steel beam diagonal */}
       <mesh position={[1, 0, 0]} rotation={[0, 0, Math.PI / 4]}>
         <boxGeometry args={[3, 0.3, 0.3]} />
-        <meshStandardMaterial color="#888888" metalness={0.8} roughness={0.2} />
+        <meshStandardMaterial attach="material" color="#888888" metalness={0.8} roughness={0.2} />
       </mesh>
     </group>
   );
