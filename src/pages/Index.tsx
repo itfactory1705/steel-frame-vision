@@ -7,6 +7,7 @@ import About from '@/components/About';
 import Projects from '@/components/Projects';
 import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
+import { Toaster } from '@/components/ui/toaster';
 
 const Index = () => {
   useEffect(() => {
@@ -47,6 +48,7 @@ const Index = () => {
       <Projects />
       <ContactSection />
       <Footer />
+      <Toaster />
     </div>
   );
 };
