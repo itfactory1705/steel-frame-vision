@@ -1,39 +1,8 @@
 
 import React from 'react';
-import { Building, Construction, Home, Truck, Hammer, Wrench } from 'lucide-react';
-
-const ServicesData = [
-  {
-    icon: <Building className="w-10 h-10 text-accent-orange" />,
-    title: 'Проектирование',
-    description: 'Разработка полного комплекта проектной документации для объектов любой сложности с учетом всех требований и норм.'
-  },
-  {
-    icon: <Construction className="w-10 h-10 text-accent-orange" />,
-    title: 'Производство металлоконструкций',
-    description: 'Изготовление металлоконструкций на собственном производстве с соблюдением всех технологических требований.'
-  },
-  {
-    icon: <Home className="w-10 h-10 text-accent-orange" />,
-    title: 'Строительство зданий',
-    description: 'Полный цикл строительства зданий из металлоконструкций от фундамента до отделки.'
-  },
-  {
-    icon: <Truck className="w-10 h-10 text-accent-orange" />,
-    title: 'Логистика',
-    description: 'Доставка металлоконструкций на объект в любую точку страны собственным транспортом.'
-  },
-  {
-    icon: <Hammer className="w-10 h-10 text-accent-orange" />,
-    title: 'Монтаж металлоконструкций',
-    description: 'Профессиональный монтаж металлоконструкций с использованием современной техники и оборудования.'
-  },
-  {
-    icon: <Wrench className="w-10 h-10 text-accent-orange" />,
-    title: 'Техническое обслуживание',
-    description: 'Полное техническое обслуживание и ремонт зданий из металлоконструкций.'
-  }
-];
+import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
+import { ServicesData } from '@/data/services';
 
 const Services: React.FC = () => {
   return (
@@ -50,11 +19,18 @@ const Services: React.FC = () => {
           {ServicesData.map((service, index) => (
             <div 
               key={index} 
-              className="bg-white p-8 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+              className="bg-white p-8 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col"
             >
               <div className="mb-6">{service.icon}</div>
               <h3 className="text-xl font-bold mb-4 text-steel-800">{service.title}</h3>
-              <p className="text-steel-600">{service.description}</p>
+              <p className="text-steel-600 mb-6 flex-grow">{service.description}</p>
+              <Button 
+                asChild 
+                variant="outline" 
+                className="mt-2 border-accent-orange text-accent-orange hover:bg-accent-orange hover:text-white"
+              >
+                <Link to={`/services/${service.id}`}>Подробнее</Link>
+              </Button>
             </div>
           ))}
         </div>

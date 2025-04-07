@@ -15,27 +15,26 @@ const Index = () => {
     document.title = 'SteelFrame - Строительство из металлокаркаса';
     
     // Smooth scroll for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
+    const handleAnchorClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const anchor = target.closest('a');
+      
+      if (anchor && anchor.hash && anchor.pathname === window.location.pathname) {
         e.preventDefault();
-        const href = this.getAttribute('href');
-        if (href) {
-          const target = document.querySelector(href);
-          if (target) {
-            target.scrollIntoView({
-              behavior: 'smooth'
-            });
-          }
+        const targetElement = document.querySelector(anchor.hash);
+        
+        if (targetElement) {
+          targetElement.scrollIntoView({
+            behavior: 'smooth'
+          });
         }
-      });
-    });
+      }
+    };
+    
+    document.addEventListener('click', handleAnchorClick);
     
     return () => {
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.removeEventListener('click', function (e) {
-          e.preventDefault();
-        });
-      });
+      document.removeEventListener('click', handleAnchorClick);
     };
   }, []);
 

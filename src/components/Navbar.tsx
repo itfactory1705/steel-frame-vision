@@ -2,10 +2,13 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { cn } from "@/lib/utils";
+import { Link, useLocation } from 'react-router-dom';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,9 +27,31 @@ const Navbar: React.FC = () => {
     setIsOpen(!isOpen);
   };
 
+  const getNavItemProps = (href: string) => {
+    const isAnchor = href.startsWith('#');
+    const linkClasses = cn(
+      "font-medium hover:text-accent-orange transition-colors",
+      isScrolled || !isHomePage ? "text-steel-700" : "text-white"
+    );
+
+    if (isHomePage && isAnchor) {
+      return {
+        as: 'a',
+        href,
+        className: linkClasses
+      };
+    }
+
+    return {
+      as: Link,
+      to: isAnchor ? `/${href}` : href,
+      className: linkClasses
+    };
+  };
+
   const navItems = [
-    { name: 'Главная', href: '#home' },
-    { name: 'Услуги', href: '#services' },
+    { name: 'Главная', href: isHomePage ? '#home' : '/' },
+    { name: 'Услуги', href: isHomePage ? '#services' : '/services' },
     { name: 'О нас', href: '#about' },
     { name: 'Проекты', href: '#projects' },
     { name: 'Контакты', href: '#contact' },
@@ -36,30 +61,22 @@ const Navbar: React.FC = () => {
     <nav 
       className={cn(
         "fixed w-full top-0 z-50 transition-all duration-300",
-        isScrolled ? "bg-white shadow-md py-2" : "bg-transparent py-4"
+        isScrolled || !isHomePage ? "bg-white shadow-md py-2" : "bg-transparent py-4"
       )}
     >
       <div className="container-custom flex justify-between items-center">
-        <a href="#home" className="flex items-center">
+        <Link to="/" className="flex items-center">
           <span className="text-2xl font-bold text-steel-800">
             <span className="text-accent-orange">Steel</span>Frame
           </span>
-        </a>
+        </Link>
 
         {/* Desktop menu */}
         <div className="hidden md:flex space-x-8">
-          {navItems.map(item => (
-            <a 
-              key={item.name} 
-              href={item.href} 
-              className={cn(
-                "font-medium hover:text-accent-orange transition-colors",
-                isScrolled ? "text-steel-700" : "text-white"
-              )}
-            >
-              {item.name}
-            </a>
-          ))}
+          {navItems.map(item => {
+            const { as: Component, ...props } = getNavItemProps(item.href);
+            return <Component key={item.name} {...props}>{item.name}</Component>;
+          })}
         </div>
 
         {/* Mobile menu button */}
@@ -69,9 +86,9 @@ const Navbar: React.FC = () => {
           aria-label="Toggle menu"
         >
           {isOpen ? (
-            <X className={isScrolled ? "text-steel-800" : "text-white"} size={24} />
+            <X className={isScrolled || !isHomePage ? "text-steel-800" : "text-white"} size={24} />
           ) : (
-            <Menu className={isScrolled ? "text-steel-800" : "text-white"} size={24} />
+            <Menu className={isScrolled || !isHomePage ? "text-steel-800" : "text-white"} size={24} />
           )}
         </button>
       </div>
@@ -84,16 +101,18 @@ const Navbar: React.FC = () => {
         )}
       >
         <div className="container-custom py-4 flex flex-col space-y-4">
-          {navItems.map(item => (
-            <a 
-              key={item.name} 
-              href={item.href} 
-              className="text-steel-700 hover:text-accent-orange font-medium" 
-              onClick={() => setIsOpen(false)}
-            >
-              {item.name}
-            </a>
-          ))}
+          {navItems.map(item => {
+            const { as: Component, ...props } = getNavItemProps(item.href);
+            return (
+              <Component 
+                key={item.name} 
+                {...props}
+                onClick={() => setIsOpen(false)}
+              >
+                {item.name}
+              </Component>
+            );
+          })}
         </div>
       </div>
     </nav>
