@@ -27,28 +27,6 @@ const Navbar: React.FC = () => {
     setIsOpen(!isOpen);
   };
 
-  const getNavItemProps = (href: string) => {
-    const isAnchor = href.startsWith('#');
-    const linkClasses = cn(
-      "font-medium hover:text-accent-orange transition-colors",
-      isScrolled || !isHomePage ? "text-steel-700" : "text-white"
-    );
-
-    if (isHomePage && isAnchor) {
-      return {
-        as: 'a',
-        href,
-        className: linkClasses
-      };
-    }
-
-    return {
-      as: Link,
-      to: isAnchor ? `/${href}` : href,
-      className: linkClasses
-    };
-  };
-
   const navItems = [
     { name: 'Главная', href: isHomePage ? '#home' : '/' },
     { name: 'Услуги', href: isHomePage ? '#services' : '/services' },
@@ -56,6 +34,37 @@ const Navbar: React.FC = () => {
     { name: 'Проекты', href: '#projects' },
     { name: 'Контакты', href: '#contact' },
   ];
+
+  const renderNavItem = (item: { name: string, href: string }, onClick?: () => void) => {
+    const linkClasses = cn(
+      "font-medium hover:text-accent-orange transition-colors",
+      isScrolled || !isHomePage ? "text-steel-700" : "text-white"
+    );
+
+    if (isHomePage && item.href.startsWith('#')) {
+      return (
+        <a 
+          key={item.name}
+          href={item.href} 
+          className={linkClasses}
+          onClick={onClick}
+        >
+          {item.name}
+        </a>
+      );
+    }
+
+    return (
+      <Link 
+        key={item.name}
+        to={item.href.startsWith('#') ? `/${item.href}` : item.href} 
+        className={linkClasses}
+        onClick={onClick}
+      >
+        {item.name}
+      </Link>
+    );
+  };
 
   return (
     <nav 
@@ -73,10 +82,7 @@ const Navbar: React.FC = () => {
 
         {/* Desktop menu */}
         <div className="hidden md:flex space-x-8">
-          {navItems.map(item => {
-            const { as: Component, ...props } = getNavItemProps(item.href);
-            return <Component key={item.name} {...props}>{item.name}</Component>;
-          })}
+          {navItems.map(item => renderNavItem(item))}
         </div>
 
         {/* Mobile menu button */}
@@ -101,18 +107,7 @@ const Navbar: React.FC = () => {
         )}
       >
         <div className="container-custom py-4 flex flex-col space-y-4">
-          {navItems.map(item => {
-            const { as: Component, ...props } = getNavItemProps(item.href);
-            return (
-              <Component 
-                key={item.name} 
-                {...props}
-                onClick={() => setIsOpen(false)}
-              >
-                {item.name}
-              </Component>
-            );
-          })}
+          {navItems.map(item => renderNavItem(item, () => setIsOpen(false)))}
         </div>
       </div>
     </nav>
