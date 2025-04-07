@@ -6,7 +6,7 @@ export const ServicesData = [
     id: 'design',
     icon: <Building className="w-10 h-10 text-accent-orange" />,
     title: 'Проектирование',
-    description: 'Разработка полного комплекта проектной документации для объектов л��ой сложности с учетом всех требований и норм.',
+    description: 'Разработка полного комплекта проектной документации для объектов лой сложности с учетом всех требований и норм.',
     image: 'https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&q=80',
     content: [
       'Наша команда профессиональных проектировщиков специализируется на разработке проектной документации для зданий из металлоконструкций любого назначения и сложности.',
@@ -136,7 +136,7 @@ export const ServicesData = [
     ],
     features: [
       {
-        icon: <Tools className="w-8 h-8 text-accent-orange" />,
+        icon: <Wrench className="w-8 h-8 text-accent-orange" />,
         title: 'Профессиональное оборудование',
         description: 'Использование современной техники и профессионального инструмента для монтажа.'
       },
@@ -171,7 +171,7 @@ export const ServicesData = [
         description: 'Плановые технические осмотры для выявления потенциальных проблем.'
       },
       {
-        icon: <Tools className="w-8 h-8 text-accent-orange" />,
+        icon: <Wrench className="w-8 h-8 text-accent-orange" />,
         title: 'Ремонтные работы',
         description: 'Оперативное выполнение ремонтных работ любой сложности.'
       },
